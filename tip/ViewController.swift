@@ -21,30 +21,18 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("view will appear")
-        // This is a good place to retrieve the default tip percentage from UserDefaults
-        // and use it to update the tip amount
+        let billAmount = defaults.string(forKey: "billAmount");
+        billField.text = billAmount == "0" ? "" : defaults.string(forKey: "billAmount");
+        tipControl.selectedSegmentIndex = defaults.integer(forKey: "percent");
+        calculateTip(Any.self);
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("view did appear")
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("view will disappear")
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("view did disappear")
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Tip Calculator"
         
+        billField.becomeFirstResponder();
         
         
     }
@@ -52,7 +40,7 @@ class ViewController: UIViewController {
     
     
     @IBAction func onTap(_ sender: Any) {
-        view.endEditing(true)
+        //view.endEditing(true)
     }
  
     
@@ -62,6 +50,7 @@ class ViewController: UIViewController {
         
         
         let bill = Double(billField.text!) ?? 0
+        defaults.set(bill, forKey: "billAmount");
         let tip = bill * tipPercentage[tipControl.selectedSegmentIndex]
         let total = bill + tip
         

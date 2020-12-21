@@ -9,23 +9,27 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    @IBOutlet weak var defaultTipControl: UISegmentedControl!
+
     
+    @IBOutlet weak var defaultTipControl: UISegmentedControl!
     let defaults = UserDefaults.standard
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        defaultTipControl.selectedSegmentIndex = defaults.integer(forKey: "percent");
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
-     
             
     @IBAction func tipControlChange(_ sender: Any) {
         
         defaults.set(defaultTipControl.selectedSegmentIndex, forKey: "percent")
         defaults.synchronize()
-        
-        print(defaults.integer(forKey: "percent"))
-        
+
     }
     
     /*
